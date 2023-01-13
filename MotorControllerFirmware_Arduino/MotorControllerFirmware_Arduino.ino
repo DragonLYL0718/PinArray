@@ -40,7 +40,7 @@ void loop() {
       if(inChar == '\n'){
 
         DeserializationError err = deserializeJson(jb, buff);
-         if (err) {
+        if (err) {
           Serial.print(F("deserializeJson() failed: "));
           Serial.println(err.c_str());
         }

@@ -14,7 +14,7 @@ struct initial_hallval
 {
   int Hallval=0; // the value of the hallval
   int Step_count=0; //count
-  int Record_Step_count=0; 
+  // int Record_Step_count=0; 
   bool polarity; //Record the change in the number of poles of the magnet
   int distance=0;
   int Record_initial_distance=0;
@@ -40,6 +40,7 @@ struct initial_hallval Motor_1;//define motor 1
 struct initial_hallval Motor_2;//define motor 2
 struct initial_hallval *motor_1=&Motor_1;
 struct initial_hallval *motor_2=&Motor_2;
+
 void setup() 
 {
   Serial.begin(9600);

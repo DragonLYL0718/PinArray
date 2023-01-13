@@ -59,7 +59,7 @@ void M1_stepMove(int M1_stepNum){
   }
   
   if(!M1_raisingChecker){
-     M1_moveHome();
+    M1_moveHome();
   }
   else{
     M1_moveUp();
@@ -68,7 +68,7 @@ void M1_stepMove(int M1_stepNum){
        M1_polarity = M1_hallPolarity();
     }
     if(M1_stepCounter == M1_stepNum){
-       M1_raisingChecker = false;
+      M1_raisingChecker = false;
     }
   }
 }
