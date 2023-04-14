@@ -1,7 +1,7 @@
 #ifndef _GLOBAL_
 #define _GLOBAL_
 
-#define ARoundNum 1220
+#define ARoundNum 305
 
 //Motor Pins
 const int Motor_1_P = 14; //motor1 positive pole

@@ -74,7 +74,7 @@ void SerialEvent()
             }
           }
           else if(jb["c"] == "reset"){
-            while(Motors[0].Reset() | Motors[1].Reset() | Motors[2].Reset() | Motors[3].Reset());
+            while(Motors[0].Reset() | Motors[1].Reset() | Motors[2].Reset() | Motors[3].Reset() | Motors[4].Reset() | Motors[5].Reset() | Motors[6].Reset() | Motors[7].Reset() | Motors[8].Reset());
             for(int i = 0; i < 9; i++)
               MotorHeight[i] = 0;
           }

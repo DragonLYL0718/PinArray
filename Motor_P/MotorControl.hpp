@@ -1,22 +1,11 @@
+#include "Arduino.h"
+#include "HardwareSerial.h"
 #ifndef _MOTORCONTROL_
 #define _MOTORCONTROL_
 #include "Global.hpp"
-#include "Encoder.h"
 
 #define P 0.5
 #define D 0
-
-Encoder Encoders[9] = {
-  Encoder(EncoderPins[0][0], EncoderPins[0][1]),
-  Encoder(EncoderPins[1][0], EncoderPins[1][1]),
-  Encoder(EncoderPins[2][0], EncoderPins[2][1]),
-  Encoder(EncoderPins[3][0], EncoderPins[3][1]),
-  Encoder(EncoderPins[4][0], EncoderPins[4][1]),
-  Encoder(EncoderPins[5][0], EncoderPins[5][1]),
-  Encoder(EncoderPins[6][0], EncoderPins[6][1]),
-  Encoder(EncoderPins[7][0], EncoderPins[7][1]),
-  Encoder(EncoderPins[8][0], EncoderPins[8][1])  
-};
 
 typedef class motor
 {
@@ -34,7 +23,6 @@ typedef class motor
       pinMode(Encoder_A, INPUT_PULLUP);
       pinMode(Switch, INPUT);
       pinMode(PWMPin, OUTPUT);
-      num = (Encoder_A - 34)/2;
     }
 
     void MoveUp()
@@ -76,28 +64,28 @@ typedef class motor
         PrevEncoder_A = LOW;
         EncoderValue = 0;
         TargetSum = 0;
-        Encoders[num].write(0);
         return false;
       }
       return true;
     }
 
-    // void EncoderCount(){
-    //   if(digitalRead(Encoder_A) == HIGH && PrevEncoder_A == LOW)
-    //   {
-    //     PrevEncoder_A = HIGH;
-    //     if(digitalRead(Encoder_B))EncoderValue--;
-    //     else EncoderValue++;
-    //     // Serial.print("EncoderValue: ");
-    //     // Serial.println(EncoderValue);
-    //   }
-    //   else if(digitalRead(Encoder_A) == LOW)
-    //     PrevEncoder_A = LOW;
-    // }
+    void EncoderCount(){
+      if(digitalRead(Encoder_A) == HIGH && PrevEncoder_A == LOW)
+      {
+        PrevEncoder_A = HIGH;
+        if(digitalRead(Encoder_B))EncoderValue--;
+        else EncoderValue++;
+        // Serial.print("EncoderValue: ");
+        // Serial.println(EncoderValue);
+      }
+      else if(digitalRead(Encoder_A) == LOW)
+        PrevEncoder_A = LOW;
+    }
 
     void StepMove(int StepNum)
     {
       //direction false: down; true: up;
+      EncoderCount();//count the encoder value
       // Serial.println("StepMove");
       SwitchValue = digitalRead(Switch);
       if(SwitchValue == LOW && StepCount < EncoderValue)//move to home
@@ -111,7 +99,6 @@ typedef class motor
         PrevEncoder_A = LOW;
         EncoderValue = 0;
         TargetSum = 0;
-        Encoders[num].write(0);
       }
       if(abs(StepNum - EncoderValue) < 10 && TargetSum < 1000)
       {
@@ -151,7 +138,6 @@ typedef class motor
     {
       // Serial.println("Play");
       // Serial.println(EncoderValue);
-      EncoderValue = Encoders[num].read();
       if(CheckState && distance != PrevDistance){//first time to set distance
         // Serial.println(PrevDistance);
         Distance_diff = distance * ARoundNum;
@@ -184,7 +170,6 @@ typedef class motor
     int SwitchValue = 0;
     int TargetSum = 0;
     int PrevError = 0;
-    int num = 0;
 }Motor;
 
 Motor Motor1(Motor_1_P, Motor_1_N, Encoder_1_A, Encoder_1_B, PWM_1,Switch_1);
